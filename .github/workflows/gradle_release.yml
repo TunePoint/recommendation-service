@@ -18,7 +18,7 @@ jobs:
           distribution: 'adopt'
 
       - name: Build and publish with Gradle
-        run: ./gradlew build jib
+        run: ./gradlew build publish jib 
         env:
           ARTIFACTORY_REPOSITORY: releases
           ARTIFACTORY_HOST: ${{ secrets.ARTIFACTORY_HOST }}
