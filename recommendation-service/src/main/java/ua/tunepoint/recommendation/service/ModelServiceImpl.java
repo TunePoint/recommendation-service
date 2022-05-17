@@ -125,10 +125,10 @@ public class ModelServiceImpl implements ModelService {
             throw new NotFoundException("user with id " + outerId + " was not found");
         }
 
-        List<Integer> items = model
+        List<Long> items = model
                 .getRecommendations(modelIdOptional.get(), request.getItemCount(), request.getExcludeInteracted())
                 .stream().map(item -> itemRepository.findOuterId(item))
-                .filter(Optional::isPresent).map(Optional::get)
+                .filter(Optional::isPresent).map(Optional::get).map(Integer::longValue)
                 .collect(Collectors.toList());
 
         return new RecommendationPayload(

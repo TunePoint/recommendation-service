@@ -14,5 +14,5 @@ import java.util.List;
 public class RecommendationPayload {
 
     private User user;
-    private List<Integer> items;
+    private List<Long> items;
 }
