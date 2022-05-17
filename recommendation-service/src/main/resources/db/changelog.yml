@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: recommendation-1
+      author: tunepoint
+      changes:
+        - sqlFile:
+            splitStatements: false
+            path: db/schema/init.sql

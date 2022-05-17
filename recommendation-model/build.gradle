@@ -1,0 +1,17 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    implementation 'org.hibernate.validator:hibernate-validator'
+    implementation 'org.springframework.data:spring-data-commons'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations'
+    implementation 'ua.tunepoint:commons-web-model'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+jar {
+    archiveName "${project.name}.jar"
+}

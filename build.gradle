@@ -1,0 +1,111 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.4' apply false
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'com.google.cloud.tools.jib' version '3.2.0' apply false
+    id 'maven-publish'
+}
+
+allprojects {
+    group = 'ua.tunepoint'
+    version = '0.0.1'
+}
+
+subprojects {
+
+    apply plugin: 'java-library'
+    apply plugin: "io.spring.dependency-management"
+    apply plugin: 'maven-publish'
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
+    }
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    repositories {
+        maven {
+            url 'http://artifactory.tunepoint.fun/releases'
+            allowInsecureProtocol true
+        }
+        mavenCentral()
+    }
+
+    dependencyManagement {
+
+        dependencies {
+
+            dependency 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:3.1.1'
+            dependency 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.1'
+            dependency 'org.springframework.boot:spring-boot-configuration-processor:2.6.4'
+            dependency 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.4'
+//            dependency 'org.springframework.boot:spring-boot-starter-security:2.6.4'
+            dependency 'org.springframework.boot:spring-boot-starter-web:2.6.4'
+            dependency 'org.springframework.boot:spring-boot-starter-validation:2.6.4'
+            dependency 'org.springframework.data:spring-data-commons:2.6.2'
+            dependency 'org.springframework.kafka:spring-kafka:2.8.2'
+
+            dependency 'com.fasterxml.jackson.core:jackson-annotations:2.13.2'
+            dependency 'com.fasterxml.jackson.core:jackson-core:2.13.2'
+            dependency 'com.fasterxml.jackson.core:jackson-databind:2.13.2'
+
+            dependency 'org.projectlombok:lombok:1.18.22'
+            dependency 'org.postgresql:postgresql:42.3.3'
+            dependency 'org.hibernate.validator:hibernate-validator:6.2.2.Final'
+            dependency 'io.github.resilience4j:resilience4j-spring-boot2:1.7.1'
+
+            dependency 'org.liquibase:liquibase-core:4.9.0'
+
+            dependency "org.mapstruct:mapstruct:1.4.2.Final"
+            dependency "org.mapstruct:mapstruct-processor:1.4.2.Final"
+
+            dependency 'com.opencsv:opencsv:5.6'
+
+            dependency 'ua.tunepoint:resource-api:0.0.6'
+            dependency 'ua.tunepoint:resource-model:0.0.6'
+            dependency 'ua.tunepoint:account-api:0.0.14'
+            dependency 'ua.tunepoint:account-model:0.0.14'
+            dependency 'ua.tunepoint:audio-model:0.0.15'
+            dependency 'ua.tunepoint:auth-model:0.0.9'
+            dependency 'ua.tunepoint:commons-web-model:0.0.5'
+            dependency 'ua.tunepoint:commons-web-exception:0.0.5'
+            dependency 'ua.tunepoint:commons-event-model:0.0.11'
+            dependency 'ua.tunepoint:commons-event-starter:0.0.11'
+
+            dependency 'com.auth0:java-jwt:3.19.0'
+        }
+    }
+
+    if (file('publish.gradle').exists()) {
+
+        publishing {
+            publications {
+                mavenJava(MavenPublication) {
+                    groupId project.group
+                    artifactId project.name
+                    version project.version
+
+                    artifact jar
+                }
+            }
+
+            repositories {
+                maven {
+                    name  'reposilite'
+                    url "http://artifactory.tunepoint.fun/${System.getenv('ARTIFACTORY_REPOSITORY')}"
+                    allowInsecureProtocol true
+
+                    credentials {
+                        username System.getenv('ARTIFACTORY_USERNAME')
+                        password System.getenv('ARTIFACTORY_PASSWORD')
+                    }
+                }
+            }
+        }
+    }
+}

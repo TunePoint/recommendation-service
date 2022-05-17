@@ -1,0 +1,78 @@
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-stacktrace: never
+    include-binding-errors: always
+
+spring:
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog.yml
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+model:
+  regularization-parameter: 0.1
+  factors: 32
+  offline-iterations: 10
+  online-iterations: 3
+  latent-init-mean: 0
+  latent-init-deviation: 0.01
+  popularity-significance: 0.3
+  missing-data-weight: 10
+  new-item-weight: 0.5
+
+  initializer:
+    source: DATABASE
+
+    tables:
+      user-interaction: recommendation.user_item
+      user-vector: recommendation.user_vectors
+      item-vector: recommendation.item_vectors
+
+    save-after-build: true
+    save-after-update: true
+
+    save-user-id-pool: false
+    save-item-id-pool: true
+
+mapping:
+  user-table: recommendation.users
+  item-table: recommendation.items
+
+event:
+  service-name: ${spring.application.name}
+  bootstrap-servers: ${KAFKA_URL}
+
+eureka:
+  client:
+    register-with-eureka: ${EUREKA_ENABLED:true}
+    fetch-registry: ${EUREKA_ENABLED:true}
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8765/eureka}
+---
+spring:
+  application:
+    name: audio-recommendation-service
+  profiles:
+    active: audio
+
+---
+spring:
+  application:
+    name: playlist-recommendation-service
+  profiles:
+    active: playlist
+
+---
+spring:
+  application:
+    name: author-recommendation-service
+  profiles:
+    active: author

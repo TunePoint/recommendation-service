@@ -1,0 +1,68 @@
+plugins {
+	id 'org.springframework.boot'
+	id 'java-library'
+	id 'com.google.cloud.tools.jib'
+}
+
+dependencies {
+	implementation project(":recommendation-api")
+	implementation project(":recommendation-model")
+	implementation project(":recommendation-algorithm")
+
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	implementation 'org.springframework.kafka:spring-kafka'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'io.github.resilience4j:resilience4j-spring-boot2'
+
+//	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+
+	implementation 'org.liquibase:liquibase-core'
+	implementation 'org.mapstruct:mapstruct'
+	implementation 'com.auth0:java-jwt'
+	implementation 'com.opencsv:opencsv'
+
+	implementation 'ua.tunepoint:commons-web-model'
+	implementation 'ua.tunepoint:commons-event-model'
+	implementation 'ua.tunepoint:commons-web-exception'
+	implementation 'ua.tunepoint:commons-event-starter'
+	implementation 'ua.tunepoint:audio-model'
+	implementation 'ua.tunepoint:auth-model'
+	implementation 'ua.tunepoint:account-model'
+
+	// logging
+	compileOnly 'ch.qos.logback:logback-core:1.2.3'
+	compileOnly 'ch.qos.logback:logback-classic:1.2.3'
+
+	compileOnly 'org.projectlombok:lombok'
+	compileOnly 'org.mapstruct:mapstruct-processor'
+	runtimeOnly 'org.postgresql:postgresql'
+
+	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor 'org.mapstruct:mapstruct-processor'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+}
+
+bootJar {
+	archiveName "${project.name}.jar"
+}
+
+jib {
+	from {
+		image dockerImage
+	}
+
+	to {
+		image "docker.io/tunepoint/${project.name}:${project.version}"
+
+		auth {
+			username System.getenv('DOCKER_USERNAME') ?: 'default'
+			password System.getenv('DOCKER_PASSWORD') ?: 'default'
+		}
+	}
+}
