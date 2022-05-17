@@ -11,5 +11,3 @@ dependencies {
 jar {
 	archiveName "${project.name}.jar"
 }
-
-

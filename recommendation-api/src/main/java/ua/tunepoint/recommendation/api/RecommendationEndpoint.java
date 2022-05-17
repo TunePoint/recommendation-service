@@ -7,7 +7,7 @@ import ua.tunepoint.recommendation.model.response.Response;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-public interface RestEndpoint {
+public interface RecommendationEndpoint {
 
     @ResponseBody
     @RequestMapping(
