@@ -56,23 +56,3 @@ eureka:
     fetch-registry: ${EUREKA_ENABLED:true}
     service-url:
       defaultZone: ${EUREKA_URL:http://localhost:8765/eureka}
----
-spring:
-  application:
-    name: audio-recommendation-service
-  profiles:
-    active: audio
-
----
-spring:
-  application:
-    name: playlist-recommendation-service
-  profiles:
-    active: playlist
-
----
-spring:
-  application:
-    name: author-recommendation-service
-  profiles:
-    active: author
