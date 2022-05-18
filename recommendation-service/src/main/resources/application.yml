@@ -24,7 +24,7 @@ model:
   online-iterations: 3
   latent-init-mean: 0
   latent-init-deviation: 0.01
-  popularity-significance: 0.3
+  popularity-significance: 0.5
   missing-data-weight: 10
   new-item-weight: 0.5
 
@@ -32,19 +32,19 @@ model:
     source: DATABASE
 
     tables:
-      user-interaction: recommendation.user_item
-      user-vector: recommendation.user_vectors
-      item-vector: recommendation.item_vectors
+      user-interaction: ${SCHEMA}.user_item
+      user-vector: ${SCHEMA}.user_vectors
+      item-vector: ${SCHEMA}.item_vectors
 
     save-after-build: true
     save-after-update: true
 
-    save-user-id-pool: false
+    save-user-id-pool: true
     save-item-id-pool: true
 
 mapping:
-  user-table: recommendation.users
-  item-table: recommendation.items
+  user-table: ${SCHEMA}.users
+  item-table: ${SCHEMA}.items
 
 event:
   service-name: ${spring.application.name}

@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: recommendation-1
+      id: ${SCHEMA}_1
       author: tunepoint
       changes:
         - sqlFile:

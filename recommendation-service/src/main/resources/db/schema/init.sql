@@ -1,19 +1,18 @@
-CREATE SCHEMA if NOT EXISTS recommendation;
+CREATE SCHEMA if NOT EXISTS ${SCHEMA};
 
-CREATE TABLE recommendation.users
+CREATE TABLE ${SCHEMA}.users
 (
     outer_id BIGINT PRIMARY KEY,
     model_id BIGINT NOT NULL UNIQUE
 );
 
-CREATE TABLE recommendation.items
+CREATE TABLE ${SCHEMA}.items
 (
-    outer_id   BIGINT PRIMARY KEY,
-    model_id   BIGINT NOT NULL UNIQUE,
-    is_private BOOLEAN DEFAULT FALSE
+    outer_id BIGINT PRIMARY KEY,
+    model_id BIGINT NOT NULL UNIQUE
 );
 
-CREATE TABLE recommendation.user_item -- interaction
+CREATE TABLE ${SCHEMA}.user_item -- interaction
 (
     user_id BIGINT NOT NULL,
     item_id BIGINT NOT NULL,
@@ -21,14 +20,14 @@ CREATE TABLE recommendation.user_item -- interaction
     CONSTRAINT user_item_pk PRIMARY KEY (user_id, item_id)
 );
 
-CREATE TABLE recommendation.item_vectors
+CREATE TABLE ${SCHEMA}.item_vectors
 (
-    item_id BIGINT REFERENCES recommendation.items (model_id),
+    item_id BIGINT REFERENCES ${SCHEMA}.items (model_id),
     vector  BYTEA NOT NULL
 );
 
-CREATE TABLE recommendation.user_vectors
+CREATE TABLE ${SCHEMA}.user_vectors
 (
-    user_id BIGINT REFERENCES recommendation.users (model_id),
+    user_id BIGINT REFERENCES ${SCHEMA}.users (model_id),
     vector  BYTEA NOT NULL
 );
