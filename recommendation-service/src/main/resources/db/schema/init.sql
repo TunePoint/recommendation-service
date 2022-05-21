@@ -3,13 +3,15 @@ CREATE SCHEMA if NOT EXISTS ${SCHEMA};
 CREATE TABLE ${SCHEMA}.users
 (
     outer_id BIGINT PRIMARY KEY,
-    model_id BIGINT NOT NULL UNIQUE
+    model_id BIGINT NOT NULL UNIQUE,
+    is_deleted BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE ${SCHEMA}.items
 (
     outer_id BIGINT PRIMARY KEY,
-    model_id BIGINT NOT NULL UNIQUE
+    model_id BIGINT NOT NULL UNIQUE,
+    is_deleted BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE ${SCHEMA}.user_item -- interaction

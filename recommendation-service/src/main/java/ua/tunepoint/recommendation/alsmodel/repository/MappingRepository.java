@@ -1,7 +1,6 @@
 package ua.tunepoint.recommendation.alsmodel.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -14,6 +13,7 @@ public abstract class MappingRepository {
 
     protected abstract String getTableName();
 
+
     public boolean save(Integer outerId, Integer modelId) {
         if (exists(outerId, modelId)){
             return false;
@@ -21,15 +21,19 @@ public abstract class MappingRepository {
         return template.update("insert into " + getTableName() + "(outer_id, model_id) values (?, ?)", outerId, modelId) == 1;
     }
 
+    public boolean delete(Integer id) {
+        return template.update("update " + getTableName() + " set is_deleted = true where outer_id = ?", id) == 1;
+    }
+
     public Optional<Integer> findModelId(Integer outerId){
         Integer modelId = DataAccessUtils
-                .singleResult(template.query("select model_id from " + getTableName() + " where outer_id = ? limit 1", (r, num) -> r.getInt(1), outerId));
+                .singleResult(template.query("select model_id from " + getTableName() + " where outer_id = ? and is_deleted = false limit 1", (r, num) -> r.getInt(1), outerId));
         return Optional.ofNullable(modelId);
     }
 
     public Optional<Integer> findOuterId(Integer modelId){
         Integer outerId = DataAccessUtils
-                .singleResult(template.query("select outer_id from " + getTableName() + " where model_id = ? limit 1", (r, num) -> r.getInt(1), modelId));
+                .singleResult(template.query("select outer_id from " + getTableName() + " where model_id = ? and is_deleted = false limit 1", (r, num) -> r.getInt(1), modelId));
         return Optional.ofNullable(outerId);
     }
 

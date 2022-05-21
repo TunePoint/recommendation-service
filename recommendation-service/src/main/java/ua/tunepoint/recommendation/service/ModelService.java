@@ -10,5 +10,7 @@ public interface ModelService {
     void build();
     Integer addUser(Integer id);
     Integer addItem(Integer id);
+    boolean deleteUser(Integer id);
+    boolean deleteItem(Integer id);
     RecommendationPayload recommendations(Request request);
 }

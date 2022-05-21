@@ -19,7 +19,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'io.github.resilience4j:resilience4j-spring-boot2'
 
-//	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
 
 	implementation 'org.liquibase:liquibase-core'

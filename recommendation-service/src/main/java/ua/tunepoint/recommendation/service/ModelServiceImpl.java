@@ -116,6 +116,16 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
+    public boolean deleteUser(Integer id) {
+        return userRepository.delete(id);
+    }
+
+    @Override
+    public boolean deleteItem(Integer id) {
+        return itemRepository.delete(id);
+    }
+
+    @Override
     public RecommendationPayload recommendations(Request request) {
         Integer outerId = request.getUserId().intValue();
 

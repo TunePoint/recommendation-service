@@ -39,8 +39,8 @@ model:
     save-after-build: true
     save-after-update: true
 
-    save-user-id-pool: true
-    save-item-id-pool: true
+    save-user-id-pool: false
+    save-item-id-pool: false
 
 mapping:
   user-table: ${SCHEMA}.users
